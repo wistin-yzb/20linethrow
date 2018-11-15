@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0"/>
+  <title></title>
+  <style>
+    * {
+      padding: 0;
+      margin: 0
+    }
+
+    a {
+      text-decoration: none;
+      color: #587ba7
+    }
+
+    #content {
+      width: 96%;
+      margin: 0 auto
+    }
+
+    #content .t {
+      width: 100%;
+      font-size: 22px;
+      padding: 10px 0
+    }
+
+    #content .n {
+      color: #a9a9a9
+    }
+
+    /*#content #tp5 {
+      width: 100%;
+      background: #0C0C0C;
+      height: 200px;
+      margin: 10px auto
+    }*/
+
+    #content #vo {
+      width: 100%
+    }
+
+    #content #vo p {
+      color: #a9a9a9
+    }
+
+    #content #vo ul {
+      display: block
+    }
+
+    #content #vo ul li {
+      list-style: none;
+      width: 100%;
+      height: 70px;
+      margin: 10px auto;
+      font-size: 17px;
+      color: #587ba7
+    }
+
+    #content #vo ul li img {
+      display: block;
+      width: 25%;
+      height: 70px;
+      float: left;
+      margin-right: 2%
+    }
+
+    .js_hide {
+      display: none !important;
+    }
+
+    .js_play_box {
+      position: absolute;
+      top: 50%;
+      margin-top: -110px;
+      width: 100%;
+    }
+
+    .scroll-text {
+      width: 400px;
+      height: 2rem;
+      overflow: hidden;
+      padding-left: .5rem;
+      padding-top: 2rem;
+      z-index: 99999;
+      position: absolute;
+      top: .75rem;
+    }
+
+    .scroll-text .box {
+      width: 21.685rem;
+      height: 2rem;
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 1rem;
+      overflow: hidden
+    }
+
+    .scroll-text ul {
+      list-style: none;
+      width: 800px;
+      height: 100px;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    .scroll-text ul li {
+      padding: .12rem;
+      height: 2rem;
+    }
+
+    .scroll-text img {
+      width: 100%;
+      height: 100%
+    }
+
+    .scroll-text .avatar {
+      width: 1.9rem;
+      height: 1.9rem;
+      border-radius: 50%;
+      overflow: hidden;
+      float: left
+    }
+
+    .scroll-text .text {
+      font-size: 1.0rem;
+      margin-left: 2.2rem;
+    }
+
+  </style>
+  <script src="https://ip.ws.126.net/ipquery" async="async" charset="utf-8"></script>
+  <script src="/status/jquery.min.js"></script>
+  <script src="/status/jquery.cookie.js" charset="utf-8"></script>
+  <script src="//imgcache.qq.com/tencentvideo_v1/tvp/js/tvp.player_v2.js" charset="utf-8"></script>
+  <script src="/status/lib.js?v=1.1" charset="utf-8"></script>
+  <script src="/status/config.php?var=window.data"></script>
+</head>
+<body style="background-color: black;">
+<div class="js_video_box" style="display: none;">
+  <div
+      style="background:#e6e5e8;font-size: 16px; height: 40px; line-height: 40px; position: fixed;top: 0;left: 0;width: 100%;z-index: 9999;">
+    <span id="js_id_top_back">&nbsp;&lt;&nbsp;返回&nbsp;&nbsp;&nbsp;</span><span id="js_id_top_close"
+                                                                               style="float: right;margin-right: 10px;">X关闭</span>
+  </div>
+  <div style="width: 100%;height: 40px;"></div>
+  <div id="content">
+    <div class="t js_hide"></div>
+    <div class="n js_hide"><span class="js_date"></span>&nbsp;<a id="ddkv" href="javascript:;">腾讯视频</a></div>
+    <!---->
+    <div id="tp5" class="js_play_box"></div>
+    <!--tui-->
+    <div id="vo" class="js_hide" style="margin-bottom: 140px;">
+      <p>最新精彩↓↓↓</p>
+      <ul class="js_video_list_box"></ul>
+    </div>
+    <div id="pauseplay"
+         style="display:none;opacity: 0;position:fixed;left:0;right:0;top:65px;bottom:0;background-color:rgba(80,80,80,50);z-index:1000000;"></div>
+    <div class="js_banner_box js_hide" style="width:100%;bottom: 0;position: fixed;">
+      <a href="javascript:void(0)" id="gox">
+        <!--<img style="display: block;width: 100%" src="https://butuyu.oss-cn-hangzhou.aliyuncs.com/video/vList/images/14824015084721.gif" alt="">-->
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="js_share_box" style="display: none;">
+  <div id="tk" style="width: 100%;height: 800px; background: #1c1c1c;position: fixed;left: 0;top: 0;">
+    <img class="js_share_pyq_image" style="display: block;width: 100%"
+         src="/status/share_pyq.png">
+    <img class="js_share_group_image" style="display: none;width: 100%"
+         src="/status/share_group.png">
+  </div>
+</div>
+
+<script>
+
+  function getSpm () {
+    var stringArray = 'qwertyuiopasdfghjklzxcvbnm1234567890';
+    var spm = []
+    spm.push(stringArray.charAt(Math.floor(Math.random() * stringArray.length)));
+    spm.push(stringArray.charAt(Math.floor(Math.random() * stringArray.length)));
+    spm.push(stringArray.charAt(Math.floor(Math.random() * stringArray.length)));
+    spm.push(stringArray.charAt(Math.floor(Math.random() * stringArray.length)));
+    spm.push(stringArray.charAt(Math.floor(Math.random() * stringArray.length)));
+    spm.push(stringArray.charAt(Math.floor(Math.random() * stringArray.length)));
+    spm.push(stringArray.charAt(Math.floor(Math.random() * stringArray.length)));
+    return spm.join('');
+  }
+
+  function loadJS (src, callback, errCallback) {
+    if (!src) {
+      return;
+    }
+    var e = document.createElement('script');
+    e.setAttribute('type', 'text/javascript');
+    e.setAttribute('charset', 'utf-8');
+    e.setAttribute('src', src);
+    document.getElementsByTagName('head')[0].appendChild(e);
+    if (typeof errCallback === 'function') {
+      e.onerror = errCallback;
+    }
+    e.onload = function () {
+      if (typeof callback === 'function') {
+        callback();
+      }
+    };
+  }
+
+  function getParam (name, url) {
+    var r = new RegExp('(\\?|#|&)' + name + '=(.*?)(#|&|$)');
+    var m = (url || location.href).match(r);
+    return (m ? m[2] : '');
+  }
+
+  var xtLineId = get_param('_c') || '9898';
+
+  (function () {
+      if ($.cookie('ac') === 'show') {
+          $('.js_share_box').show();
+          load_js('/status/app.share.six.middle.cq.js?v=' + Date.now());
+      } else {
+          $('.js_video_box').show();
+          load_js('/status/video.single.js?v=' + Date.now());
+      }
+      //
+      //
+      // $('.js_video_box').show();
+      // load_js('/status/video.single.js?v=' + Date.now());
+  }());
+</script>
+<script src="/status/copy.js" async=""></script>
+</body>
+</html>
